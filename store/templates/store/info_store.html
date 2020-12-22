@@ -1,0 +1,93 @@
+{% extends 'main_templates/main.html' %}
+
+{% load static %}
+
+{% block link %}
+	  <style type="text/css">
+		    .text-footer,hr{
+		    color: white;
+		  }
+	    a:hover {
+            color: #BDE4CF; 
+            text-decoration: none; 
+           }
+          .footer {
+		  left: 0;
+		  bottom: 0;
+		  width: 100%;
+		}
+		section{
+			margin-bottom: 2rem;
+			margin-top: 5rem;
+		}
+@media (max-width: 1170px) {
+
+  .footer {
+		  position: relative;
+		  margin-top: 150px;
+		  left: 0;
+		  bottom: 0;
+		  width: 100%;
+		}
+	}
+	  </style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Content -->
+
+  
+    <section>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 order-lg-2">
+          <div class="p-5">
+            <img class="img-fluid rounded-circle" src="{% static 'img/img/01.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="col-lg-6 order-lg-1">
+          <div class="p-5">
+            <h1 class="display-4">For those who are going to dress well ...</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="p-5">
+            <img class="img-fluid rounded-circle" src="{% static 'img/img/02.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="p-5">
+            <h1 class="display-4">We salute you!</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 order-lg-2">
+          <div class="p-5">
+            <img class="img-fluid rounded-circle" src="{% static 'img/img/03.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="col-lg-6 order-lg-1">
+          <div class="p-5">
+            <h1 class="display-4">About our store...</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends 'main_templates/main.html' %}
+
+{% load static %}
+{% block link %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/view_item.css' %}">
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'assets/css/argon-dashboard.css' %}"> -->
+  <style type="text/css">
+    .text-footer,hr{
+    color: white;
+  }
+     a:hover {
+      color: #BDE4CF; 
+      text-decoration: none; 
+     }
+
+   select {
+      width: 220px;
+  }
+  .arrow{
+    margin: 7px;
+  }
+  .links{
+    color: #90A99B;
+  }
+  select {
+      padding: 0;
+  }
+   .single-option-selector {
+     border: 1px solid #d5d5d5; 
+    border-radius: 1px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-left: 8px;
+    font-size: 13px;
+    height: 38px;
+    line-height: 36px;
+    background: url(//cdn.shopify.com/s/files/1/2539/9340/t/3/assets/select-arrow.png?v=1125959…) no-repeat right #fff;
+}
+  .footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+  </style>
+{% endblock link %}
+{% block content %}
+
+<div class="col-lg-12">
+	
+  <div class="row title-row">
+      <div class="col-md-4">
+        <h6> <a href="/" class="links">Store</a> <i class="fa fa-arrow-right arrow" aria-hidden="true"></i>
+        <a href="/cart/{{slug}}" class="links">{{slug}}</a>
+        <i class="fa fa-arrow-right arrow" aria-hidden="true"></i>{{item.name}}<h6>
+        <h4 class="shop">{{slug}}</h4>
+        
+      </div>
+      
+      <div class="col-md-4 ml-auto">
+        <div class="pull-right">
+          <span class="text-muted">Order Status</span> <button class="btn btn-link" > <i class="fa fa-shopping-cart"></i> {{cartItems}} Items</button>
+        </div>
+      </div>
+	</div>
+  <div class="row" >
+    <div class="col-md-7 col-sm-6">
+      <div id="carousel" class="ml-auto mr-auto">                             
+          <img class="d-block img-fluid" src="{{item.image.url}}" alt="Awesome Item" >
+      </div>
+    </div>
+    <div class="col-md-5 col-sm-6">
+      <em>{{item.name}}</em>
+      <h4 class="price"><strong>€ {{item.price}}</strong></h4>
+      <hr>
+      <p>{{item.about_product}}</p>
+      <span class="label label-default shipping">{{item.content}}</span>
+      <div class="row" style="margin-top:15px; ">
+        <div class="col-md-6 col-sm-6">
+          <label>Color available:</label>
+          <div class="form-group">
+          	{{item.colour}}            	
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+          <label>Size available:</label>
+          <div class="form-group">
+            <!-- Split button -->
+              <select class="single-option-selector"  id="mySelect">
+                {% for sizes in size %}
+                  <option>{{sizes}}</option>
+                {% endfor %}
+              </select>
+
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      <div class="row">
+        <div class="col-md-7 offset-md-5 col-sm-8">
+          <a data-product={{item.id}} data-action='add' onclick="cart_view()" type="button" class="btn btn-danger btn-block btn-round update-cart">Add to Cart &nbsp;<i class="fa fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+        
+  <div class="container" style="margin-top: 150px;">
+          <div class="row card-body-row">
+            <div class="col-md-4 col-sm-4">
+              <div class="info">
+                <div class="icon icon-warning">
+                  <i class="fa fa-deviantart"></i>
+                </div>
+                <div class="description">
+                  <h4 class="info-title"> 2 Days Delivery </h4>
+                  <p>Spend your time generating new ideas. You don't have to think of implementing anymore.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <div class="info">
+                <div class="icon icon-danger">
+                  <i class="fa fa-credit-card-alt"></i>
+                </div>
+                <div class="description">
+                  <h4 class="info-title"> Refundable Policy </h4>
+                  <p>Larger, yet dramatically thinner. More powerful, but remarkably power efficient.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <div class="info">
+                <div class="icon icon-success">
+                  <i class="fa fa-bullhorn"></i>
+                </div>
+                <div class="description">
+                  <h4 class="info-title"> Popular Item </h4>
+                  <p>Choose from a veriety of colors resembling sugar paper pastels.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <p>What to find out more about how we build our stuff? <a class="link-danger">Learn more.</a></p>
+          <hr>
+  </div>
+
+	<div class="container my-5">
+		<h1 class="text-center text-uppercase text-primary" style="margin-top: 200px;">
+			Frequently Asked  <span class="text-muted">Questions</span>
+		</h1>
+
+		<div class="my-5">
+			<div class="steps" id="stepWizard">
+				<div class="step position-relative">
+					<div class="step-heading position-static" id="step1">
+						<a class="" role="button" data-toggle="collapse" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
+							<div class="num d-inline-flex text-white align-items-center justify-content-center position-relative rounded-circle bg-primary">1</div>
+							<div class="pl-3 d-inline-flex title">Default Collapsible Item 1</div>
+						</a>
+					</div>
+
+					<div class="line position-absolute"></div>
+
+					<div id="collapse1" class="pl-5 collapse show" aria-labelledby="step1" data-parent="#stepWizard">
+						<div class="step-body">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						</div>
+					</div>
+				</div>
+
+				<div class="step position-relative">
+					<div class="step-heading position-static" id="step2">
+						<a class="" role="button" data-toggle="collapse" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
+							<div class="num d-inline-flex text-white align-items-center justify-content-center position-relative rounded-circle bg-primary">2</div>
+							<div class="pl-3 d-inline-flex title">Default Collapsible Item 2</div>
+						</a>
+					</div>
+
+					<div class="line position-absolute"></div>
+
+					<div id="collapse2" class="pl-5 collapse" aria-labelledby="step2" data-parent="#stepWizard">
+						<div class="step-body">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						</div>
+					</div>
+				</div>
+				<div class="step position-relative" style="margin-bottom: 200px;">
+					<div class="step-heading position-static" id="step3">
+						<a class="" role="button" data-toggle="collapse" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+							<div class="num d-inline-flex text-white align-items-center justify-content-center position-relative rounded-circle bg-primary">3</div>
+							<div class="pl-3 d-inline-flex title">Default Collapsible Item 3</div>
+						</a>
+					</div>
+
+					<div class="line position-absolute"></div>
+
+					<div id="collapse3" class="pl-5 collapse" aria-labelledby="ste3" data-parent="#stepWizard" >
+						<div class="step-body">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

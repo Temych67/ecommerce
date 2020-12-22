@@ -1,0 +1,101 @@
+{% extends 'main_templates/main.html' %}
+
+{% load static %}
+{% block link %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+      <style type="text/css">
+          .text-footer,hr{
+          color: white;
+        }
+          a:hover {
+          color: #BDE4CF; 
+          text-decoration: none; 
+         }
+        .footer {
+          left: 0;
+          bottom: 0;
+          width: 100%;
+        }
+     </style>
+{% endblock link %}
+{% block content %}
+
+
+   <div class="col-lg-12">
+      <center class="mt-4 mb-4">
+         <h1 class="front-text-box" style="margin-top: 100px;">{{slug}}</h1>
+         
+      </center>
+      <section class="section-tours">
+         <div class="row">
+            {% for product in products %}
+            <div class="col-lg-4 mb-4">
+               <div class="my-flip-container">
+                  <div class="my-flip-inner my-flip-right">
+                     <div class="my-flip-inner-wrapper">
+                        <div class="my-flip-side my-flip-front">
+                           <div class="my-flip-image my-flip-image--1">
+                              <img src="{{product.imageURL}}">                                 
+                           </div>
+                           <div class="my-flip-details">
+                              <h4 class="my-flip-heading">{{product.name}}</h4>
+                              <div class="my-flip-text">
+                                 <p>{{product.about_product}}</p>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="my-flip-side my-flip-back my-flip-back-3">
+                           <div class="my-flip-back-inner">
+                              <div class="my-flip-price">
+                                 <h3>${{product.price|floatformat:2}}</h3>
+                              </div>
+                              <div class="my-flip-back-text">
+                                 <ul>
+                                    <li>{{product.content}}</li>
+                                    <li>{{product.colour}}</li>
+                                    <li>{{product.sizing}}</li>
+                                    <li>{{product.manufacturer}}</li>
+                                    <li>{{product.name}}</li>
+                                 </ul>
+                              </div>
+                              <div class=" my-flip-btn-box">
+                                 <!-- <a data-product={{product.id}} data-action='add' type="button" class="my-flip-btn update-cart">Add To Cart</a> -->
+                                 <a href="/cart/{{slug}}/{{product.name}}" class="my-flip-btn">View product</a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+      </section>
+   </div>
+   <nav aria-label="Page navigation">
+   <ul class="pagination  pg-grey justify-content-center">
+      {% if products.has_previous %}
+           <li class="page-item">
+           <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{ products.previous_page_number }}">&laquo; Previous</a>
+         </li>
+       {% endif %}
+
+      {% for i in products.paginator.page_range %}
+         {% if products.number == i %}
+            <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+         {% else %}
+            <li class="page-item" ><a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{ i }}">{{ i }}</a></li>
+         {% endif %}
+      {% endfor %}
+       
+       {% if products.has_next %}
+         <li class="page-item">
+           <a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{ products.next_page_number }}">Next</a>
+         </li>
+         <li class="page-item">
+           <a class="page-link"  href="?{% if query %}q={{query}}&{% endif %}page={{ products.paginator.num_pages }}">Last &raquo;</a>
+         </li>
+       {% endif %}
+   </ul>
+   </nav>
+{% endblock content %}

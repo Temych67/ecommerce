@@ -1,0 +1,92 @@
+{% extends 'main_templates/main.html' %}
+{% load socialaccount %}
+
+
+{% load static %}
+{% block link %}
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="/static/assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
+  <link href="/static/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link href="/static/assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
+<style type="text/css">
+  body{
+    background-color: #778899;
+  }
+      .text-footer,hr{
+    color: white;
+  }
+    a:hover {
+      color: #BDE4CF; 
+      text-decoration: none; 
+     }
+   .footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
+{% endblock link %}
+
+{% block content %}
+
+<div style="margin-top: 250px;">
+  
+
+ <!-- Page content -->
+    <div class="container mt--8 pb-5" >
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="card bg-secondary shadow border-0">
+            <div class="card-header bg-transparent pb-5">
+              <div class="text-muted text-center mt-2 mb-3"><small>Sign in with</small></div>
+              <div class="btn-wrapper text-center">
+<!--                <a href="{% provider_login_url 'facebook' method='oauth2' %}" class="btn btn-neutral btn-icon">
+                  <span class="btn-inner--icon"><img src="/static/assets/img/icons/common/facebook.svg"></span>
+                  <span class="btn-inner--text">Facebook</span>
+                </a> -->
+                <a href="{% provider_login_url 'google' %}" class="btn btn-neutral btn-icon">
+                  <span class="btn-inner--icon"><img src="/static/assets/img/icons/common/google.svg"></span>
+                  <span class="btn-inner--text">Google</span>
+                </a>
+              </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+              <form method="POST">{% csrf_token %}
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                    </div>
+                    {{ form.email }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    {{ form.password }}
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-6">
+              <a href="{% url 'register' %}" class="text-light"><small>Register</small></a>
+            </div>
+            <div class="col-7">
+              <a href="{% url 'password_reset' %}" class="text-light"><small>Forgot password?</small></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock content %}

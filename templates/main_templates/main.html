@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+	<title>DemoShop</title>
+
+  <link href="{% static 'css/one-page-wonder.min.css' %}" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/email_newsletter.css' %}">
+
+  <link href="/static/js/nucleo/css/nucleo.css" rel="stylesheet" />
+
+  {% if '/' ==  request.path %}
+  <style type="text/css">
+      section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.lnr {
+  display: inline-block;
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.05em;
+  stroke-width: 1;
+}
+
+.services-icon {
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+bgc2, .vLine, .hLine {
+    background-color: #0F52BA;
+}
+
+.quote-icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+.services-icon {
+    font-size: 60px;
+    margin-left: 2rem;
+}
+
+  h2{ 
+    position  : absolute;
+    width: 80%; 
+    text-align: center; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  a:hover {
+    color: #BDE4CF;; /* Цвет ссылки при наведении на нее курсора мыши */  
+    text-decoration: none; 
+   }
+  [class^=char]{
+    display: inline-block !important;
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+  }
+  .footer-classic a, .footer-classic h6, .footer-classic p,  .footer-classic a:focus, .footer-classic a:active {
+    color: #ffffff;
+    }
+  .logo {
+    font-family: "Helvetica Neue",sans-serif;
+    font-weight: bold;
+  }
+  </style>
+  {% endif %}
+	{% block link %}
+
+	{% endblock link %}
+
+
+  <script type="text/javascript">
+      var user = '{{request.user}}'
+
+      function getToken(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                  const cookie = cookies[i].trim();
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+      const csrftoken = getToken('csrftoken');
+
+
+       function getCookie(name) {
+          // Split cookie string and get all individual name=value pairs in an array
+          var cookiesArr = document.cookie.split(';');
+          // Loop through the array elements
+          for (var i = 0; i < cookiesArr.length; i++) {
+
+            var cookiePair = cookiesArr[i].split('=');
+            // Removing whitespace at the beginning of the cookie name and compare it with the given string
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+          }
+          // Return null if not found
+          return null;
+        }
+      
+
+      var cart = JSON.parse(getCookie('cart'));
+      if(cart == undefined){
+        cart={}
+        console.log('Cart was created!')
+        document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+      }
+      console.log('Cart:', cart)
+  </script>
+
+</head>
+<body>
+
+    <header>
+      <!--Navbar -->
+      <nav class="mb-1 navbar navbar-expand-lg fixed-top navbar-dark  lighten-1" style="background-color: #212121;" >
+        <h6 class="navbar-brand logo text-footer" style="margin: 0 0 0 0; padding-right:  10px;">Ecommerce</h6>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+          aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/" style="font-size: 20px">Store
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto nav-flex-icons">
+            <li class="nav-item">
+              {% if request.user.is_authenticated %}
+             <a class="nav-link text-footer" href="/account">Account
+              </a>
+              {% else %}
+              <a class="nav-link" href="/login">Login/Registration
+              </a>
+              {% endif %}
+            </li>
+            {% if '/info_store/' !=  request.path %}
+              <li class="nav-item">
+              <a class="nav-link" href="/info_store">About store
+                </a>
+              </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link waves-effect waves-light" href="/basket/">{{cartItems}}
+                <i class="fa fa-cart-arrow-down"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!--/.Navbar -->
+       
+    </header>
+    
+  
+   {% if '/' ==  request.path %}
+      <div class="container">
+        <div class="row">
+          <h2><div data-splitting style=" font-size: 130px;">Eccomerce site</div></h2>
+        </div>
+      </div>
+{% endif %}
+
+		{% block content %}
+    {% include 'store/store.html' %}
+		{% endblock content %}
+	</div>
+  {% if '/' ==  request.path %}
+
+{% endif %}
+
+<!-- Footer -->
+  
+<footer class="page-footer footer-classic font-small footer" style="background: #4B515D;">
+
+  <div style="background-color: #6351ce;">
+    <div class="container">
+
+      <!-- Grid row-->
+      <div class="row py-4 d-flex align-items-center">
+
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+          <h6 class="mb-0 text-footer">Get connected with us on social networks!</h6>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-7 text-center text-md-right">
+
+          <!-- Facebook -->
+          <a class="fb-ic" href="https://www.facebook.com">
+            <i class="fa fa-facebook-f white-text mr-4 text-footer"></i>
+          </a>
+          <!-- Twitter -->
+          <a class="tw-ic" href="https://twitter.com">
+            <i class="fa fa-twitter white-text mr-4 text-footer"></i>
+          </a>
+          <!-- Google +-->
+          <a class="gplus-ic" href="https://www.google.com">
+            <i class="fa fa-google-plus white-text mr-4 text-footer"></i>
+          </a>
+          <!--Linkedin -->
+          <a class="li-ic" href="https://www.linkedin.com">
+            <i class="fa fa-linkedin white-text mr-4 text-footer"></i>
+          </a>
+          <!--Instagram-->
+          <a class="ins-ic" href="https://www.instagram.com">
+            <i class="fa fa-instagram white-text text-footer"></i>
+          </a>
+
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row-->
+
+    </div>
+  </div>
+
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left mt-5">
+
+    <!-- Grid row -->
+    <div class="row mt-3">
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+        <!-- Content -->
+        <h6 class="text-uppercase font-weight-bold text-footer">Company name</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto text-footer" style="width: 60px;">
+        <p class="text-footer">Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
+          consectetur
+          adipisicing elit.</p>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold text-footer">Products</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto text-footer" style="width: 60px;">
+        <p>
+          <a href="#!" class="text-footer">MDBootstrap</a>
+        </p>
+        <p>
+          <a href="#!" class="text-footer">MDWordPress</a>
+        </p>
+        <p>
+          <a href="#!" class="text-footer">BrandFlow</a>
+        </p>
+        <p>
+          <a href="#!"  class="text-footer">Bootstrap Angular</a>
+        </p>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold text-footer">Useful links</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto text-footer" style="width: 60px;">
+        <p>
+           {% if request.user.is_authenticated %}
+             <a href="/account"  class="text-footer">Your Account
+              </a>
+              {% else %}
+              <a  href="/login"  class="text-footer">Your Account
+              </a>
+              {% endif %}
+        </p>
+        <p>
+          <a href="#!" class="text-footer">Become an Affiliate</a>
+        </p>
+        <p>
+          <a href="#!" class="text-footer">Shipping Rates</a>
+        </p>
+        <p>
+          <a href="#!" class="text-footer">Help</a>
+        </p>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold text-footer">Contact</h6>
+        <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+        <p class="text-footer">
+          <i class="fa fa-home mr-3"></i> New York, NY 10012, US</p>
+        <p class="text-footer">
+          <i class="fa fa-envelope mr-3"></i> info@example.com</p>
+        <p class="text-footer">
+          <i class="fa fa-phone mr-3"></i> + 01 234 567 88</p>
+        <p class="text-footer">
+          <i class="fa fa-print mr-3"></i> + 01 234 567 89</p>
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+</footer>
+
+
+<!-- Footer -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="{% static 'js/card.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+    // split text
+Splitting(); // => letters are '<div>' wrapped!
+
+// ref obj
+var OBJ = 'h2 > div span';
+
+// total nr of letters
+var ntCh = OBJ.length;
+
+// cos (index) => y
+function curveY(i){
+  var n = i / ntCh * 6.24;
+  return (Math.cos(n)) * -200;
+}
+
+// sin (index) => x
+function curveX(i){
+  var n = i / ntCh * 6.24;
+  return (Math.sin(n)) * -200;
+}
+
+// new timeline ref
+var tl = new TimelineMax({delay:.5, repeat:-1 });
+
+// color array helper
+var arr = ["#008954","#0077be","#a9d046","#00b0f0","#a93056","#ee3338","#f89734","#ffd925","#973989","#cb92a6"];
+
+// ZIGZAG letters 
+tl.staggerFrom( OBJ , 1, {
+  cycle:{ 
+    y:curveY, 
+  },
+  x:-100, opacity:0
+}, .03);
+// ZIPPER letters
+tl.staggerTo( OBJ , 3, { 
+  cycle:{
+    y:[-80, 80],
+    color: arr,
+    skewY:[ 20, -20],
+    skewX:[ -20, 20],
+  }, 
+}, .05, "+=1" );
+
+// sin curve out
+
+tl.staggerTo( OBJ , 2, { 
+  cycle: { 
+    x: curveY,
+    y: curveX, 
+  },
+  color: "#fff"
+}, .03, "+=1" );
+
+</script>
+</body>
+</html>

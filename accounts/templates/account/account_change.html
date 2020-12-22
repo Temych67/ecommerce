@@ -1,0 +1,162 @@
+{% extends 'main_templates/main.html' %}
+
+{% load static %}
+{% block link %}
+  <!-- CSS Files -->
+  <link href="/static/assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
+  <style type="text/css">
+    .text-footer,hr{
+    color: white;
+  }
+      .footer {
+      left: 0;
+      bottom: 0;
+      width: 100%;
+  }
+    a:hover {
+      color: #BDE4CF; 
+      text-decoration: none; 
+     }
+    .date{
+      padding-left: 1.25rem;
+    }
+    @media(min-width: 440px) and (max-width: 540px){
+      .btn-sm, .btn-group-sm>.btn {
+          font-size: 0.55rem;
+      }
+    }
+    @media(max-width: 440px){
+    .btn-sm, .btn-group-sm>.btn {
+      font-size: 0.45rem;
+  }
+}
+  </style>
+{% endblock link %}
+	
+{% block content %}
+<div class="main-content">
+  <div class="container mt-7">
+      <!-- Table -->
+      <h2 class="mb-5">My Account Card</h2>
+    <div class="row">
+      <div class="col-xl-8 m-auto order-xl-1">
+        <div class="card bg-secondary shadow">
+
+          <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            {% if success_message %}
+              <h2 class="heading-small text-muted mb-4" style="color:green; text-align: center;">{{success_message}}</h2>
+            {% endif  %}
+
+            {% for field in account_form %}
+                <p>
+                  {% for error in field.errors %}
+                    <h6 class="heading-small text-muted mb-4"> style="color: red">{{ error }}</h6>
+                  {% endfor %}
+                </p>
+            {% endfor %}
+            {% if account_form.non_field_errors %}
+              <div style="color: red">
+                <h6 class="heading-small text-muted mb-4">{{account_form.non_field_errors}}</h6>
+              </div>
+                
+            {% endif %}
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">My account</h3>
+                </div>
+                <div class="col-4  text-right">
+                  <button class="btn btn-primary btn-block btn-sm btn-success" type="submit">Submit</button>
+                  <a class="btn btn-secondary btn-block btn-sm btn-dark" href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a>
+                  <a class="btn btn-secondary btn-block btn-sm btn-warning" href="{% url 'password_change' %}"><i class="fa fa-key" aria-hidden="true"></i> Change password</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <h6 class="heading-small text-muted mb-4">User information</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Email address</label>
+                        <input type="email" id="input-email" class="form-control form-control-alternative" name="email" placeholder="Email" value="{{account_form.initial.email}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-first-name">First name</label>
+                        <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" name="first_name" value="{{account_form.initial.first_name}}">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-last-name">Last name</label>
+                        <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" name="last_name" value="{{account_form.initial.last_name}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </form>
+          <hr class="my-4">
+          <h6 class="heading-small text-muted mb-4">Contact information</h6>
+          
+            <div id="accordion" role="tablist" aria-multiselectable="true" style="padding-bottom: 1.25rem;">
+              <div class="panel panel-default">
+                {% for value in orderitem %} 
+                <div class="panel-heading date" role="tab" id="headingOne">
+                  
+                  {% for item in value %}
+                  <h4 class="panel-title" style="margin-top: 20px;">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{item.order}}" aria-expanded="true" aria-controls="collapseOne{{item.order}}">
+                      {{item.date_added}}
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne{{item.order}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">  
+                  <div class="container my-5">
+                    <div class="container">
+                      
+                      <div class="row" style="margin-top: 20px;">
+                        
+                        <div class="col-sm-3">
+                          <h4>Name</h4>
+                          <p>{{item.product.name}}</p>
+                        </div>
+                      
+                        <div class="col-sm-3">
+                          <h4>Price</h4>
+                          <p>{{item.product.price}}$</p>
+                        </div>
+                        
+                        <div class="col-sm-3">
+                          <h4>Quantity</h4>
+                          <p>{{item.quantity}}</p>
+                        </div>
+
+                        <div class="col-sm-3">
+                          <h4>Size</h4>
+                          <p>{{item.sizing}}</p>
+                        </div>
+
+                        <div class="col-lg-12">
+                          <img src="{{item.product.image.url}}" style="width: 100%; height: 400px;">
+                        </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
