@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wg3=0d92v8w3*ts7q&s1j1q*7i*grq-g2^r90@5%$hx@f!%&3t'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -225,9 +225,9 @@ LOGIN_REDIRECT_URL='/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'testmailpython67@gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 # os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = 'Gyao8/jah8'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 # os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 
@@ -242,11 +242,11 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 
-AWS_ACCESS_KEY_ID           =  'AKIA2XIMOQWN557WBBVK'
+AWS_ACCESS_KEY_ID           =  os.environ.get('AWS_ACCESS_KEY_ID')
 # os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY       =  'TBwhCUx0FuhmkhLA6uJQpsONtTtQzYGfj+LYBqjw'
+AWS_SECRET_ACCESS_KEY       =  os.environ.get('AWS_SECRET_ACCESS_KEY')
 # os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME     =  'ecommercebucket67'
+AWS_STORAGE_BUCKET_NAME     =  os.environ.get('AWS_STORAGE_BUCKET_NAME')
 # os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
 AWS_LOCATION = 'static'
